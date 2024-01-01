@@ -1,0 +1,383 @@
+﻿
+@{
+    ViewBag.Title = "Create Support";
+}
+<!--MAIN CONTENT-->
+<link href="~/Content/css/owl.carousel.min.css" rel="stylesheet" />
+<link href="~/Content/css/ionicons.min.css" rel="stylesheet" />
+
+<div id="loader" class="preloader-area">
+    <div class="spinner-gears"></div>
+</div>
+<div id="content" ng-controller="CreateReservationController" ng-init="Init('@ViewBag.LoggedUser.AgentId','@ViewBag.LoggedUser.GroupId')">
+
+    <div class="alert alert-success fade in" ng-show="IsSent">
+        <strong>Successful.</strong> Email has been sent.
+        <button class="close" data-dismiss="alert">
+            ×
+        </button>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h1 class="page-title txt-color-blueDark">
+                <i class="fa fa-table fa-fw "></i>
+                Reservation
+            </h1>
+        </div>
+
+        <div class="col-xs-12 col-sm-5 col-md-5 col-lg-8">
+
+            <a ng-click="CreateBooking(Reservation)" class="btn btn-info pull-right header-btn m-b-10 m-t-10 margin-left-5"><i class="fa fa-fw fas fa-save"></i> Save</a>
+
+        </div>
+
+    </div>
+
+    <section id="widget-grid" class="">
+        <div id="content">
+
+
+            <div class="alert alert-success fade in" id="communication-success" ng-show="isSuccess">
+
+                <i class="fa-fw fa fa-check"></i>
+                <strong>Success</strong> The Events has been Updated successfully
+            </div>
+            <!-- row -->
+
+            <div class="row">
+
+                <div class="col-sm-12 col-md-12 col-lg-3">
+                    <!-- new widget -->
+                    <div>
+                        <header>
+                            <h2> Add Reservation </h2>
+                        </header>
+
+                        <!-- widget div-->
+                        <div>
+
+                            <div class="widget-body">
+                                <!-- content goes here -->
+
+                                <form id="add-event-form">
+                                    <fieldset>
+
+                                        <div class="form-group">
+                                            <label>Select Event Icon</label>
+                                            <div class="btn-group btn-group-sm btn-group-justified" data-toggle="buttons">
+                                                <label class="btn btn-default active">
+                                                    <input type="radio" name="iconselect" id="icon-1" value="fa-info" checked>
+                                                    <i class="fa fa-info text-muted"></i>
+                                                </label>
+                                                <label class="btn btn-default">
+                                                    <input type="radio" name="iconselect" id="icon-2" value="fa-warning">
+                                                    <i class="fa fa-warning text-muted"></i>
+                                                </label>
+                                                <label class="btn btn-default">
+                                                    <input type="radio" name="iconselect" id="icon-3" value="fa-check">
+                                                    <i class="fa fa-check text-muted"></i>
+                                                </label>
+                                                <label class="btn btn-default">
+                                                    <input type="radio" name="iconselect" id="icon-4" value="fa-user">
+                                                    <i class="fa fa-user text-muted"></i>
+                                                </label>
+                                                <label class="btn btn-default">
+                                                    <input type="radio" name="iconselect" id="icon-5" value="fa-lock">
+                                                    <i class="fa fa-lock text-muted"></i>
+                                                </label>
+                                                <label class="btn btn-default">
+                                                    <input type="radio" name="iconselect" id="icon-6" value="fa-clock-o">
+                                                    <i class="fa fa-clock-o text-muted"></i>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Reservation Category</label>
+                                            <select class="form-control" ng-options=" Category as Category.Name for Category in Categories" ng-model="ResCategory" required ng-change="GetReservationItemByCategoryId(ResCategory)" id="category"></select>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Reservation Item</label>
+                                            <select class="form-control" ng-options=" res as res.Name for res in ReservationItems" ng-model="ReservationItem" required ng-change="GetReservationTimeRangeById(ReservationItem)" id="reservationItem"></select>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <button class="btn btn-default" type="button" ng-disabled="!SelectedReservationItem.Id" ng-click="GetReservationItem()">
+                                                        Show Details
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Reservation Time Range</label>
+                                            <select class="form-control" ng-options=" resTime as resTime.StartTime + ' - '  + resTime.EndTime for resTime in TimeRange" ng-model="Time" required></select>
+                                        </div>
+
+                                    </fieldset>
+                                    <div class="form-actions form-actions2">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button class="btn btn-default" type="button" id="add-event" ng-disabled="!SelectedReservationItem.Id||!SelectedCategory.Id||!Time.Id">
+                                                    Add Reservation
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <!-- end content -->
+                            </div>
+
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                    <!-- end widget -->
+
+                    <div class="well well-sm" id="event-container">
+                        <form>
+                            <fieldset>
+                                <legend>
+                                    Temporary Reservations
+                                </legend>
+                                <ul id='external-events' class="list-unstyled"></ul>
+
+                            </fieldset>
+                        </form>
+
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-9">
+
+                    <!-- new widget -->
+                    <div class="jarviswidget jarviswidget-color-blueDark">
+
+                        <!-- widget options:
+                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                        data-widget-colorbutton="false"
+                        data-widget-editbutton="false"
+                        data-widget-togglebutton="false"
+                        data-widget-deletebutton="false"
+                        data-widget-fullscreenbutton="false"
+                        data-widget-custombutton="false"
+                        data-widget-collapsed="true"
+                        data-widget-sortable="false"
+
+                        -->
+                        <!-- widget div-->
+                        <div>
+
+                            <div class="widget-body widget-body2 no-padding">
+                                <!-- content goes here -->
+                                <div class="widget-body-toolbar">
+
+                                    <div id="calendar-buttons">
+
+                                        @*<div class="btn-group">
+                                                <a href="javascript:void(0)" class="btn btn-default btn-xs" id="btn-prev"><i class="fa fa-chevron-left"></i></a>
+                                                <a href="javascript:void(0)" class="btn btn-default btn-xs" id="btn-next"><i class="fa fa-chevron-right"></i></a>
+                                            </div>*@
+                                    </div>
+                                </div>
+                                <div id="calendar"></div>
+
+                                <!-- end content -->
+                            </div>
+
+                        </div>
+                        <!-- end widget div -->
+                    </div>
+                    <!-- end widget -->
+
+                </div>
+
+            </div>
+
+            <!-- end row -->
+
+        </div>
+    </section>
+
+
+    <div class="modal fade" id="ShowReservationItem" tabindex="-1" role="dialog">
+
+        <div class="modal-dialog" style="width:1250px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Details</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" name="companyEditForm" novalidate>
+
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Type</label>
+                                <div class="col-md-7">
+                                    <select class="form-control" ng-options=" Category.Id as Category.Name for Category in Categories" ng-model="ReservationItem.ResCategoryId" readonly>
+                                        @*<option value=""> Select Category</option>*@
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Name</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" ng-model="ReservationItem.Name" readonly />
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Hourly Rate/@ViewBag.LoggedUser.Currency</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" ng-model="ReservationItem.Price" readonly />
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group" ng-show="TimeRange.length>0">
+
+                                <div class="col-md-7 col_centre">
+                                    <div class="row m-b-10" ng-repeat="times in TimeRange">
+                                        <div class="col-md-2">
+                                            <label class="control-label pull-right">Start Time</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" id="st{{$index+1}}" class="form-control" ng-model="times.StartTime" readonly />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="control-label pull-right">End Time</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" id="et{{$index+1}}" class="form-control" ng-model="times.EndTime"  readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Address</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" ng-model="ReservationItem.Address" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group" ng-hide="!AttachmentList">
+                                <label class="col-md-2 control-label">Uploaded Attachments</label>
+
+                                <div class="col-md-10">
+                                    <div class="preview clearfix">
+                                        <div class="previewData clearfix col-md-3" ng-repeat="attachment in AttachmentList track by $index">
+                                            <div class="upload_image">
+                                                <img src="{{attachment.AttachmentURL}}" id="file-name" readonly="" class="img-responsive" style="height:auto; width: auto;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </fieldset>
+
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+</div>
+
+@section pagespecific{
+    <!-- PAGE RELATED PLUGIN(S) -->
+    <script src="~/Content/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script>
+    <script src="~/Content/js/plugin/fastclick/fastclick.min.js"></script>
+    <script src="~/Content/js/plugin/select2/select2.min.js"></script>
+
+    <script src="~/Content/js/plugin/markdown/markdown.min.js"></script>
+    <script src="~/Content/js/plugin/markdown/to-markdown.min.js"></script>
+    <script src="~/Content/js/plugin/markdown/bootstrap-markdown.min.js"></script>
+
+    <script src="~/Scripts/commercepromote/controllers/bookingclient.createreservation.controller.js"></script>
+
+    <script src="~/Content/js/plugin/moment/moment.min.js"></script>
+    <script src="~/Content/js/plugin/fullcalendar/jquery.fullcalendar.min.js"></script>
+    <script src="~/Content/js/plugin/owlcarousal/owl.carousel.min.js"></script>
+
+
+
+    <script src='scheduler.js'></script>
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                format: 'dd/M/yyyy',
+                autoclose: true
+            });
+        })
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#datepicker").datepicker({
+                format: 'dd/MM/yyyy',
+                autoclose: true
+            });
+            $('.btn-file :file').on('fileselect', function (event, label) {
+
+                var input = $(this).parents('.input-group').find(':text'),
+                    log = label;
+
+                if (input.length) {
+                    input.val(log);
+                } else {
+                    if (log) alert(log);
+                }
+
+            });
+        });
+
+    </script>
+
+    <script>
+
+        function _alert() {
+
+            $.bigBox({
+                title: "Allocation Blocked !",
+                content: "Can not over Lap the dates and times of the created events with same reservation Item",
+                color: "#DC143C",
+                timeout: 8000,
+                icon: "fa fa-bell swing animated"
+            });
+        }
+
+
+        function _oldDays() {
+
+            $.smallBox({
+                title: "You can not make event in old days !",
+                content: "Please select a new date greater than today",
+                color: "#006400",
+                timeout: 8000,
+                icon: "fa fa-bell"
+            });
+
+        }
+
+
+
+
+    </script>
+
+   
+}
+
+
+
+

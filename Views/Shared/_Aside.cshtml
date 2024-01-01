@@ -1,0 +1,34 @@
+﻿<aside id="left-panel">
+    <nav>
+        <ul>
+            @if (ViewBag.LoggedUser.IsAgency)
+            {
+                <li class="@Html.RouteIf("index", "active")">
+                    <a href="@Url.Action("index", "booking")" title="Reservation List"><i class="fa fa-list-ul"></i> <span class="menu-item-parent">Reservation Item List</span></a>
+                </li>
+
+                <li class="@Html.RouteIf("SeeAllReservation", "active")">
+                    <a href="@Url.Action("SeeAllReservation", "booking")" title="All Reservations"><i class="fa fa-stack-exchange"></i> <span class="menu-item-parent">All Reserved Items </span></a>
+                </li>
+                <li class="@Html.RouteIf("DisplayReservationGrid", "active")">
+                    <a href="@Url.Action("DisplayReservationGrid", "booking")" title="Display Reservations"><i class="fa fa-calendar"></i> <span class="menu-item-parent">Display Reservation </span></a>
+                </li>
+            }
+            else
+            {
+                <li class="@Html.RouteIf("CreateReservation", "active")">
+                    <a href="@Url.Action("CreateReservation", "booking")" title="Create Reservations"><i class="fa fa-ticket"></i> <span class="menu-item-parent">Create Reservations</span></a>
+                </li>
+
+                <li class="@Html.RouteIf("GetReservedAgents", "active")">
+                    <a href="@Url.Action("GetReservedAgents", "booking")" title="My Reservations"><i class="fa fa-ticket"></i> <span class="menu-item-parent">My Reservations</span></a>
+                </li>
+            }
+
+
+        </ul>
+    </nav>
+    <span class="minifyme" data-action="minifyMenu">
+        <i class="fa fa-arrow-circle-left hit"></i>
+    </span>
+</aside>

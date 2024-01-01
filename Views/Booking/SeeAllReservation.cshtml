@@ -1,0 +1,272 @@
+﻿@*<div id="loader" class="preloader-area">
+        <div class="spinner-gears"></div>
+    </div>*@
+
+
+<div id="content" ng-controller="SeeAllReservationController" ng-init="Init('@ViewBag.LoggedUser.AgentId','@ViewBag.LoggedUser.GroupId')">
+
+    <div class="row">
+
+        <div class="col-sm-12 col-md-12 col-lg-3">
+            <!-- new widget -->
+            <div>
+                <header>
+                    <h2>Select Category </h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+
+                    <div class="widget-body">
+                        <!-- content goes here -->
+
+                        <form id="add-event-form">
+                            <fieldset>
+
+                                <div class="form-group">
+                                    <label>Reservation Category</label>
+                                    <select class="form-control" ng-options=" Category as Category.Name for Category in Categories" ng-model="ResCategory" required ng-change="GetReservationItemByCategoryId(ResCategory)" id="category"></select>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Reservation Item</label>
+                                    <select class="form-control" ng-options=" res as res.Name for res in ReservationItems" ng-model="ReservationItem" required ng-change="GetReservationTimeRangeById(ReservationItem)" id="reservationItem"></select>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Reservation Time Range</label>
+                                    <select class="form-control" ng-options=" resTime as resTime.StartTime + ' - '  + resTime.EndTime for resTime in TimeRange" ng-model="Time" required></select>
+                                </div>
+
+                            </fieldset>
+                            <div class="form-actions form-actions2">
+                                <div class="row">
+
+                                    <div class="col-md-12">
+
+                                        <button class="btn btn-default" type="button" id="add-event" ng-disabled="!ResCategory" ng-click="GetReservedItems()">
+                                            Show Reservations
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <span ng-show="isClicked" class="save-msg margin-right-10"> please wait...</span>
+
+
+                            </div>
+                        </form>
+
+                        <!-- end content -->
+                    </div>
+
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+
+
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-lg-9">
+
+            <!-- new widget -->
+            <div class="jarviswidget jarviswidget-color-blueDark">
+                <div>
+                    <div class="widget-body widget-body2 no-padding">
+                        <!-- content goes here -->
+                        <div class="widget-body-toolbar">
+
+                            <div id="calendar-buttons">
+
+                                @*<div class="btn-group">
+                                        <a href="javascript:void(0)" class="btn btn-default btn-xs" id="btn-prev"><i class="fa fa-chevron-left"></i></a>
+                                        <a href="javascript:void(0)" class="btn btn-default btn-xs" id="btn-next"><i class="fa fa-chevron-right"></i></a>
+                                    </div>*@
+                            </div>
+                        </div>
+                        <div id="calendar"></div>
+
+                        <!-- end content -->
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal" id="noreservation" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" ng-click="Close()">&times;</button>
+                    <center> <h4 class="modal-title"><b>Notification ! </b></h4> </center>
+                </div>
+
+                <div class="modal-body">
+                    <blockquote>
+                        <small>  -no any reservations found -</small>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="createMail" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" ng-click="close()">&times;</button>
+                    <center> <h4 class="modal-title"><b>Send Mail to {{SendMail.PreferredName}} </b></h4> </center>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" name="frm1" novalidate>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Email Address</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" ng-model="SendMail.email" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Description</label>
+                            <div class="col-md-10">
+
+                                <textarea class="form-control" type="text" ng-model="SendMail.body" required>
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="alert alert-success fade in" ng-show="IsSent">
+                            <strong>Successful.</strong> Email has been sent.
+                            <button class="close" data-dismiss="alert">
+                                ×
+                            </button>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" ng-disabled="!frm1.$valid" type="button" ng-click="SendMailToAgent(SendMail)"> Send </button>
+                            <span ng-show="IsSendingEmail" class="save-msg margin-right-10">Sending please wait...</span>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section pagespecific{
+    <!-- PAGE RELATED PLUGIN(S) -->
+    <script src="~/Content/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script>
+    <script src="~/Content/js/plugin/fastclick/fastclick.min.js"></script>
+    <script src="~/Content/js/plugin/select2/select2.min.js"></script>
+
+    <script src="~/Content/js/plugin/markdown/markdown.min.js"></script>
+    <script src="~/Content/js/plugin/markdown/to-markdown.min.js"></script>
+    <script src="~/Content/js/plugin/markdown/bootstrap-markdown.min.js"></script>
+    <script src="~/Scripts/commercepromote/controllers/bookingclient.seeallreservation.controller.js"></script>
+
+    <script src="~/Content/js/plugin/moment/moment.min.js"></script>
+    <script src="~/Content/js/plugin/fullcalendar/jquery.fullcalendar.min.js"></script>
+
+    <script src='scheduler.js'></script>
+
+    <script>
+        function _emailSuccess() {
+
+            $.smallBox({
+                title: "Your Email has been successfully sent to the Agent!",
+                content: "<i class='fa fa-clock-o'></i> <i>2 seconds ago...</i>",
+                color: "#808000",
+                iconSmall: "fa fa-thumbs-up bounce animated",
+                timeout: 4000
+            });
+        }
+
+
+        function _emailSendingError() {
+
+            $.smallBox({
+                title: "Email sending error!",
+                content: "<i class='fa fa-clock-o'></i> <i>2 seconds ago...</i>",
+                color: "#C3272B",
+                iconSmall: "fa fa-thumbs-o-down bounce animated",
+                timeout: 4000
+            });
+        }
+
+        function DeleteConfirmation(Id,_id) {
+            $.SmartMessageBox({
+                title: "Delete confirmation!",
+                content: "Are you sure want to delete the booking?",
+                buttons: '[No][Yes]'
+            }, function (ButtonPressed) {
+                if (ButtonPressed === "Yes") {
+
+                    angular.element(document.getElementById('content')).scope().DeleteReservedItem(Id, _id);
+                }
+                if (ButtonPressed === "No") {
+
+                }
+
+            });
+        }
+
+        function DeleteSuccess() {
+
+
+            $.smallBox({
+                title: "You have successfully deleted the booking !",
+                content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
+                color: "#10ac84",
+                iconSmall: "fa fa-thumbs-up bounce animated",
+                timeout: 8000
+            });
+
+        }
+
+
+        function DeleteError() {
+
+
+            $.smallBox({
+                title: "Booking item delete Error!",
+                content: "<i class='fa fa-clock-o'></i> <i>please try again !</i>",
+                color: "#ee5253",
+                iconSmall: "fa fa-thumbs-up bounce animated",
+                timeout: 8000
+            });
+
+        }
+
+        function DeleteSuccess() {
+
+
+            $.smallBox({
+                title: "You have successfully deleted the booking !",
+                content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
+                color: "#10ac84",
+                iconSmall: "fa fa-thumbs-up bounce animated",
+                timeout: 8000
+            });
+
+        }
+
+        function NoReservation() {
+
+            $.smallBox({
+                title: "No any reservations found!",
+                content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
+                color: "#e67e22",
+                iconSmall: "fa fa-exclamation-triangle bounce animated",
+                timeout: 8000
+            });
+
+        }
+
+    </script>
+}

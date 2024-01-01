@@ -1,0 +1,280 @@
+﻿
+@{
+    ViewBag.Title = "Create Support";
+}
+<!--MAIN CONTENT-->
+@*<div id="loader" class="preloader-area">
+        <div class="spinner-gears"></div>
+    </div>*@
+<div id="content" ng-controller="EditBookingController" ng-init="Init('@ViewBag.LoggedUser.AgentId','@ViewBag.LoggedUser.AgentId',  '@ViewBag.ReservationId')">
+    <div id="loader" class="preloader-area">
+        <div class="spinner-gears"></div>
+    </div>
+    <div class="row">
+
+
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h1 class="page-title txt-color-blueDark">
+                <i class="fa fa-table fa-fw "></i>
+                Edit Reservation
+            </h1>
+        </div>
+    </div>
+
+    <section id="widget-grid" class="">
+
+
+        <div class="well well-light well-sm" style="min-height:initial">
+            <div class="row">
+                <div class="col-sm-12">
+                    <form class="form-horizontal" name="companyEditForm" novalidate>
+
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Type</label>
+                                <div class="col-md-7">
+                                    <select class="form-control" ng-options=" Category.Id as Category.Name for Category in Categories" ng-model="ReservationItem.ResCategoryId" required>
+                                        @*<option value=""> Select Category</option>*@
+                                    </select>
+                                </div>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#createCategory">
+                                    <i class="fa fa-puzzle-piece" aria-hidden="true"></i>
+                                    Add Category
+                                </button>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Name</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" ng-model="ReservationItem.Name" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Hourly Rate/@ViewBag.LoggedUser.Currency</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" ng-model="ReservationItem.Price" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Start Time</label>
+                                <div class="col-md-7">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <input type="text" id="timepicker-one" name="timepicker-one" class="form-control timepicker" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="control-label pull-right">End Time</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" id="timepicker-two" name="timepicker-two" class="form-control timepicker" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button" class="btn btn-success" ng-click="getTime()">
+                                                <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                Add Schedule
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" ng-show="TimeRange.length>0">
+
+                                <div class="col-md-7 col_centre">
+                                    <div class="row m-b-10" ng-repeat="times in TimeRange">
+                                        <div class="col-md-2">
+                                            <label class="control-label pull-right">Start Time</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" id="st{{$index+1}}" class="form-control" ng-model="times.StartTime" required readonly />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="control-label pull-right">End Time</label>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" id="et{{$index+1}}" class="form-control" ng-model="times.EndTime" required readonly />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a ng-click="RemoveRange(times,$index)" class="btn btn-danger btn-circle m-r-5 padding-top-5"><i class="fa fa-times" aria-hidden="true"> </i></a>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            @*<div class="form-group">
+                                    <label class="col-md-2 control-label">Reservation Hours</label>
+                                    <div class="col-md-7">
+                                        <input type="number" class="form-control" ng-model="ReservationItem.ReservationHours" required />
+                                    </div>
+                                </div>*@
+
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Address</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" ng-model="ReservationItem.Address" required />
+                                </div>
+                            </div>
+                            <div class="form-group" ng-hide="!AttachmentList">
+                                <label class="col-md-2 control-label">Uploaded Attachments</label>
+
+                                <div class="col-md-10">
+                                    <div class="preview clearfix">
+                                        <div class="previewData clearfix col-md-3" ng-repeat="attachment in AttachmentList track by $index">
+                                            <div class="upload_image">
+                                                <img src="{{attachment.AttachmentURL}}" id="file-name" readonly="" class="img-responsive" style="height:auto; width: auto;" />
+                                            </div>
+                                            <div class="previewControls">
+                                                <span ng-click="DeleteAttachment(attachment.AttachmentId)" class="circle remove">
+                                                    <i class="fa fa-close"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Attachments</label>
+                                <div class="col-md-8">
+                                    <div>
+                                        <div ng-model="Files" image-upload></div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </fieldset>
+                        <div class="alert alert-success fade in" id="communication-success" ng-show="isSuccess">
+                            <button class="close" ng-click="closeMessage()">
+                                ×
+                            </button>
+                            <i class="fa-fw fa fa-check"></i>
+                            <strong> The support request created successfully</strong>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a class="btn btn-default pull-right margin-left-5" data-dismiss="modal" ng-click="Clear()">
+                                        Cancel
+                                    </a>
+                                    <a href="" type="submit" class="btn btn-success pull-right" ng-disabled="!(companyEditForm.$valid)" ng-click="UpdateReservation(ReservationItem)">
+                                        <i class="fa fa-save"></i>
+                                        Submit
+                                    </a>
+                                    <span ng-show="isSaveClicked" class="save-msg margin-right-10">Saving please wait...</span>
+                                    <span ng-show="isSuccess" class="save-msg margin-right-10">Successfully saved...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Type Modal -->
+    <div class="modal fade" id="createCategory" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Create Type</h4>
+                </div>
+                <form class="form-horizontal" name="frmSupportType">
+                    <fieldset>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Name</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" ng-model="Category.Name" id="supportType" required>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Exit</button>
+                    <button type="button" class="btn btn-success" ng-click="CreateReservationItemCategory(Category)">Submit</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Status Modal -->
+    <div class="modal fade" id="createSupportStatus" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Create Status</h4>
+                </div>
+                <form class="form-horizontal" name="frmSupportStatus">
+                    <fieldset>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Name</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" ng-model="StatusName" required>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Exit</button>
+                    <button type="button" class="btn btn-success" ng-click="CreateReviewStatus(StatusName)">Submit</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pagespecific{
+    <!-- PAGE RELATED PLUGIN(S) -->
+    <script src="~/Content/js/plugin/markdown/markdown.min.js"></script>
+    <script src="~/Content/js/plugin/markdown/to-markdown.min.js"></script>
+    <script src="~/Content/js/plugin/markdown/bootstrap-markdown.min.js"></script>
+    <script src="~/Content/js/plugin/timepicker/wickedpicker.js"></script>
+    <link href="~/Content/css/wickedpicker.min.css" rel="stylesheet" />
+    <script src="~/Scripts/commercepromote/controllers/bookingclient.edit.controller.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#datepicker").datepicker({
+                format: 'dd/MM/yyyy',
+                autoclose: true
+            });
+            $('.btn-file :file').on('fileselect', function (event, label) {
+
+                var input = $(this).parents('.input-group').find(':text'),
+                    log = label;
+
+                if (input.length) {
+                    input.val(log);
+                } else {
+                    if (log) alert(log);
+                }
+
+            });
+        });
+
+    </script>
+    <script>
+        $('.timepicker').wickedpicker();
+
+    </script>
+
+}
+
+
+
+

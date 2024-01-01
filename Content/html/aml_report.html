@@ -1,0 +1,429 @@
+﻿
+<div id="report">
+    <div id="topSection">
+        <div class="row">
+            <h2>Customer </h2>
+            <div class="widget-body">
+                <form name="" class="form-horizontal">
+                    <fieldset>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Name</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{Customer.PreferredName}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">NRIC/Passport No</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{Customer.IDNumber}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Date of Birth</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{Customer.Birthday}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Nationality</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{Customer.Nationality}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Occupation</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" value="{{Customer.Occupation}}">
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                <div class="widget-body">
+                    <div class="alert alert-info fade in">
+                        <button class="close" data-dismiss="alert">
+                            ×
+                        </button>
+                        <i class="fa-fw fa fa-warning"></i>
+                        <strong>Important points to note</strong>
+                        <ul>
+                            <li>
+                                This checklist guides salespersons on the conduct of CDD to comply with the requirements of Practice Circular 04-15 on the Prevention of Money Laundering and Countering the Financing of Terrorism when undertaking estate agency work.
+                            </li>
+                            <li>
+                                Salespersons are required to complete the checklist for the client(s) that they represent, e.g. if the salesperson represents the buyer, the salesperson is only required to complete the checklist for the buyer. Similarly, the salesperson is only required to complete the checklist for the landlord if he represents the landlord.
+                            </li>
+                            <li>
+                                Salespersons are required to complete the checklist for every property transaction, and thereafter submit the completed checklists to their estate agents.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+                <h2>Establihing need for customer due diligence </h2>
+
+                <div>
+                    <div class="widget-body">
+                        <form>
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <label>
+                                        Is the client a <u> foreigner</u> * purchasing a property for this property transaction?
+                                        <br />
+                                        <span class="help-block"><i class="fa fa-warning"></i> Pointer: Foreigner includes Singapore Permanent Residents.</span>
+                                    </label>
+                                    <div class="col-md-12">
+                                        <span>
+                                            {{CustomerDiligent.Q21==false?'NO':'YES'}}
+                                        </span>
+                                    </div>
+                                    <textarea class="form-control" rows="2"> {{CustomerDiligent.Q21A}}</textarea>
+
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Is <u>physical cash </u>* used for the property purchase in this property transaction?
+                                        <br />
+                                        <span class="help-block"><i class="fa fa-warning"></i>  Pointer: Physical cash exclude cheques and cashier orders.</span>
+                                    </label>
+                                    <div class="col-md-12">
+                                        <span>
+                                            {{CustomerDiligent.Q22==false?'NO':'YES'}}
+                                        </span>
+                                    </div>
+                                    <textarea class="form-control" rows="2">{{CustomerDiligent.Q22A}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Are there <u>doubts</u> about the client’s particulars provided to you for this property transaction?
+                                    </label>
+                                    <div class="col-md-12">
+                                        <span>
+                                            {{CustomerDiligent.Q23==false?'NO':'YES'}}
+                                        </span>
+
+                                    </div>
+                                    <textarea class="form-control" rows="2">{{CustomerDiligent.Q23A}}</textarea>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend class="legend-content">Determine if there is suspicion of ML/FT activity for this property transaction by answering the list of suspicious ML/FT indicators below. </legend>
+                                <div class="form-group">
+                                    <label>
+                                        There is adverse news concerning the client in the media or newspapers.
+                                    </label>
+                                    <div class="col-md-12">
+                                        <span>
+                                            {{CustomerDiligent.Q24A==false?'NO':'YES'}}
+                                        </span>
+                                    </div>
+                                    <textarea class="form-control" rows="2">{{CustomerDiligent.Q24AA}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Client appears hesitant or declines to put his/her name on any document that would connect him/her with the property.
+                                    </label>
+                                    <div class="col-md-12">
+                                        <span>
+                                            {{CustomerDiligent.Q24B==false?'NO':'YES'}}
+                                        </span>
+                                    </div>
+                                    <textarea class="form-control" rows="2">{{CustomerDiligent.Q24BA}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Client attempts to hide the identity of the true client or requests that the transaction be structured to hide the identity of the true client.
+                                    </label>
+                                    <div class="col-md-12">
+                                        <span>
+                                            {{CustomerDiligent.Q24C==false?'NO':'YES'}}
+                                        </span>
+                                    </div>
+                                    <textarea class="form-control" rows="2">{{CustomerDiligent.Q24CA}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Client pays substantial down payment in cash, and the balance is financed by an offshore bank.
+                                    </label>
+                                    <div class="col-md-12">
+                                        <span>
+                                            {{CustomerDiligent.Q24D==false?'NO':'YES'}}
+                                        </span>
+                                    </div>
+                                    <textarea class="form-control" rows="2">{{CustomerDiligent.Q24DA}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Client is unconcerned about the value of the property, and is willing to pay for the property or rent it at a much higher price than the market price; or sell the property or let it out much lower than the market price.
+                                    </label>
+                                    <div class="col-md-12">
+                                        <span>
+                                            {{CustomerDiligent.Q24E==false?'NO':'YES'}}
+                                        </span>
+                                    </div>
+                                    <textarea class="form-control" rows="2">{{CustomerDiligent.Q24EA}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Client is planning to purchase or rent multiple properties in a short period of time.
+                                    </label>
+                                    <div class="col-md-12">
+                                        <span>
+                                            {{CustomerDiligent.Q24F==false?'NO':'YES'}}
+                                        </span>
+                                    </div>
+                                    <textarea class="form-control" rows="2">{{CustomerDiligent.Q24FA}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Client is willing to purchase or rent the property without inspecting it
+                                    </label>
+                                    <div class="col-md-12">
+                                        <span>
+                                            {{CustomerDiligent.Q24G==false?'NO':'YES'}}
+                                        </span>
+                                    </div>
+                                    <textarea class="form-control" rows="2">{{CustomerDiligent.Q24GA}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Client pays rent for a long duration of lease in advance.
+                                    </label>
+                                    <div class="col-md-12">
+                                        <span>
+                                            {{CustomerDiligent.Q24H==false?'NO':'YES'}}
+                                        </span>
+                                    </div>
+                                    <textarea class="form-control" rows="2">{{CustomerDiligent.Q24HA}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Client’s known business activity and purpose does not match the property transaction, e.g. the client is a non-profit organisation but the property is purchased for investment and the client intends to take a large loan.
+                                    </label>
+                                    <div class="col-md-12">
+                                        <span>
+                                            {{CustomerDiligent.Q24I==false?'NO':'YES'}}
+                                        </span>
+                                    </div>
+                                    <textarea class="form-control" rows="2">{{CustomerDiligent.Q24IA}}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        There is other* suspicion (please specify)
+                                    </label>
+                                    <div class="col-md-12">
+                                        <span>
+                                            {{CustomerDiligent.Q24J==false?'NO':'YES'}}
+                                        </span>
+                                    </div>
+                                    <textarea class="form-control" rows="2">{{CustomerDiligent.Q24JA}}</textarea>
+                                </div>
+                            </fieldset>
+
+                        </form>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div id="bottomSection">
+        <div class="row">
+            <div class="widget-body">
+                <div class="alert alert-info fade in">
+                    <button class="close" data-dismiss="alert">
+                        ×
+                    </button>
+                    <i class="fa-fw fa fa-warning"></i>
+                    <strong>Note: </strong>
+                    <ul>
+                        <li>
+                            In situations where the salesperson reasonably believes that conducting the below CDD measures would tip off the client, he/she should not pursue the CDD measures and he/she should lodge a Suspicious Transaction Report (STR)].
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>Conduct of customer due diligence measures </h2>
+            <div class="widget-body">
+                <form>
+                    <fieldset>
+                        <legend class="legend-content">Beneficial Owner (BO) </legend>
+                        <div class="form-group">
+                            <label>
+                                Do you suspect that the client is not the <u>BO*</u> of this property transaction?
+                                <br />
+                                <span class="help-block"><i class="fa fa-warning"></i>  Pointer: BO is the person who has ultimate interest in the property transaction, and who has control over the client. If the BO is a company, take reasonable measures to understand the ownership and control structure of the company to identify the individual behind the company. </span>
+                            </label>
+                            <div class="col-md-12">
+                                <span>
+                                    {{(CustomerDiligent.Q31A==false||CustomerDiligent.Q31A==null)?'NO':'YES'}}
+                                </span>
+                            </div>
+                            <textarea class="form-control" rows="2">{{CustomerDiligent.Q31AA}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                If the client is not the BO, are you able to verify the identify the BO?
+                                <br />
+                            </label>
+                            <div class="col-md-12">
+                                <span>
+                                    {{(CustomerDiligent.Q31B==false||CustomerDiligent.Q31B==null)?'NO':'YES'}}
+                                </span>
+                            </div>
+                            <textarea class="form-control" rows="2">{{CustomerDiligent.Q31BA}}</textarea>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend class="legend-content">United Nations (UN) Sanction Lists </legend>
+                        <div class="form-group">
+                            <label>
+                                In the screening of the client or BO against the UN Sanction Lists, is there any full name match or partial name match where the nationality and age range matched*?
+                            </label>
+                            <span class="help-block"><i class="fa fa-warning"></i> Pointer: If there is a partial name match, salesperson should find out whether the nationality and age range of the client match the information provided in the UN Sanction Lists. If there is a nationality and age range match, answer “Yes” to this question.</span>
+                            <div class="col-md-12">
+                                <span>
+                                    {{(CustomerDiligent.Q32A==false||CustomerDiligent.Q32A==null)?'NO':'YES'}}
+                                </span>
+                            </div>
+                            <textarea class="form-control" rows="2">{{CustomerDiligent.Q32A}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Is the client or BO known to be involved in FT, or proliferation financing?
+                            </label>
+                            <div class="col-md-12">
+                                <span>
+                                    {{(CustomerDiligent.Q32B==false||CustomerDiligent.Q32B==null)?'NO':'YES'}}
+                                </span>
+                            </div>
+                            <textarea class="form-control" rows="2">{{CustomerDiligent.Q32BA}}</textarea>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend class="legend-content">Panama Papers </legend>
+                        <div class="form-group">
+                            <label>
+                                Have you screened the client or BO against the list of entities identified in the Panama Papers*?
+                            </label>
+                            <span class="help-block"><i class="fa fa-warning"></i> Pointer: Links to the Panama Papers can be found at the International Consortium of Investigative Journalists’ (ICIJ) webpage at this web address: <a href="https://offshoreleaks.icij.org">https://offshoreleaks.icij.org</a> </span>
+                            <div class="col-md-12">
+                                <span>
+                                    {{(CustomerDiligent.Q33A==false||CustomerDiligent.Q33A==null)?'NO':'YES'}}
+                                </span>
+                            </div>
+                            <textarea class="form-control" rows="2">{{CustomerDiligent.Q33AA}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                In the screening of the client or BO against the Panama Papers, is there any name match?
+                            </label>
+                            <div class="col-md-12">
+                                <span>
+                                    {{(CustomerDiligent.Q33B==false||CustomerDiligent.Q33B==null)?'NO':'YES'}}
+                                </span>
+                            </div>
+                            <textarea class="form-control" rows="2">{{CustomerDiligent.Q33BA}}</textarea>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend class="legend-content">Politically Exposed Person (PEP)</legend>
+                        <div class="form-group">
+                            <label>
+                                Do you have reasons to believe that the client or BO is a PEP*?
+                            </label>
+                            <span class="help-block"><i class="fa fa-warning"></i> Pointer: PEP refers to a person, whether domestic, foreign or international organisation, who is or has been entrusted with prominent public functions, e.g. government ministers, senior civil servants, senior executive of state owned corporations or senior management of international organisations, etc. Use an internet-based search engine, e.g. Google and Yahoo, to obtain news or information if you suspect the client or BO is a PEP.  </span>
+                            <div class="col-md-12">
+                                <span>
+                                    {{(CustomerDiligent.Q34A==false||CustomerDiligent.Q34A==null)?'NO':'YES'}}
+                                </span>
+                            </div>
+                            <textarea class="form-control" rows="2">{{CustomerDiligent.Q34AA}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                If the client or BO is a PEP, is the client or BO a foreign PEP, a family member* or close associate* of a foreign PEP?
+                            </label>
+                            <span class="help-block"><i class="fa fa-warning"></i> Pointer: A foreign PEP refers to a person who is or has been entrusted with prominent public functions by a foreign country. Family member means a parent, step-parent, child, step-child, adopted child, spouse, sibling, step-sibling and adopted sibling of the PEP. Close associate means an individual who is closely connected to a PEP, either socially or professionally.  </span>
+                            <div class="col-md-12">
+                                <span>
+                                    {{(CustomerDiligent.Q34B==false||CustomerDiligent.Q34B==null)?'NO':'YES'}}
+                                </span>
+                            </div>
+                            <textarea class="form-control" rows="2">{{CustomerDiligent.Q34BA}}</textarea>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend class="legend-content">Higher Risk Areas</legend>
+                        <div class="form-group">
+                            <label>
+                                Is the property transaction complex*, or unusually large*?
+                            </label>
+                            <span class="help-block"><i class="fa fa-warning"></i> Pointer: Complex transactions could include attempts to disguise the BO involved in the transaction, or unnecessarily complex transaction structure possibly designed to obscure the true nature of the transaction, or multiple intermediaries used for the transaction. Unusually large transactions could include transaction priced at more than the usual or expected amount for a similar typical transaction.  </span>
+                            <div class="col-md-12">
+                                <span>
+                                    {{(CustomerDiligent.Q35A==false||CustomerDiligent.Q35A==null)?'NO':'YES'}}
+                                </span>
+                            </div>
+                            <textarea class="form-control" rows="2">{{CustomerDiligent.Q35AA}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Does the property transaction have no apparent economic* or lawful purpose*?
+                            </label>
+                            <span class="help-block"><i class="fa fa-warning"></i> Pointer: Transactions with no apparent economic or lawful purpose could include using trust and company service providers to set up a number of corporate structures in multiple countries for the transaction without any apparent purpose </span>
+                            <div class="col-md-12">
+                                <span>
+                                    {{(CustomerDiligent.Q35B==false||CustomerDiligent.Q35B==null)?'NO':'YES'}}
+                                </span>
+                            </div>
+                            <textarea class="form-control" rows="2">{{CustomerDiligent.Q35BA}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Is the client or BO from higher risk countries*?
+                            </label>
+                            <span class="help-block"><i class="fa fa-warning"></i> Pointer: The links to the list of higher risk countries can be found at the Financial Action Task Force’s (FATF) webpage at this web address: <a href="http://www.fatf-gafi.org/topics/high-riskandnon-cooperativejurisdictions">http://www.fatf-gafi.org/topics/high-riskandnon-cooperativejurisdictions</a>  </span>
+                            <div class="col-md-12">
+                                <span>
+                                    {{(CustomerDiligent.Q35C==false||CustomerDiligent.Q35C==null)?'NO':'YES'}}
+                                </span>
+                            </div>
+                            <textarea class="form-control" rows="2">{{CustomerDiligent.Q35CA}}</textarea>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend class="legend-content">Enhanced CDD</legend>
+                        <div class="form-group">
+                            <label>
+                                If the property transaction is of higher risk, have you conducted enhanced CDD measures by asking the following information from the client or BO, i.e. occupation, source of funds/wealth and purpose of the transaction.
+                            </label>
+                            <div class="col-md-12">
+                                <span>
+                                    {{(CustomerDiligent.Q36A==false||CustomerDiligent.Q36A==null)?'NO':'YES'}}
+                                </span>
+                            </div>
+                            <textarea class="form-control" rows="2">{{CustomerDiligent.Q36AA}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Have you sought approval from your estate agent to continue with the property transaction?
+                            </label>
+                            <div class="col-md-12">
+                                <span>
+                                    {{(CustomerDiligent.Q36B==false||CustomerDiligent.Q36B===null)?'NO':'YES'}}
+                                </span>
+                            </div>
+                            <textarea class="form-control" rows="2">{{CustomerDiligent.Q36BA}}</textarea>
+                        </div>
+                    </fieldset>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

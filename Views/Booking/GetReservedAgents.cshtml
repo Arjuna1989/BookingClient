@@ -1,0 +1,90 @@
+﻿<!-- widget div-->
+<div id="loader" class="preloader-area">
+    <div class="spinner-gears"></div>
+</div>
+<div id="content" ng-controller="GetReservedAgentController" ng-init="Init('@ViewBag.LoggedUser.AgentId','@ViewBag.LoggedUser.GroupId')">
+
+    <div>
+        <div class="widget-body widget-body2 no-padding">
+            <!-- content goes here -->
+            <div class="widget-body-toolbar">
+
+                <div id="calendar-buttons">
+
+                    @*<div class="btn-group">
+                            <a href="javascript:void(0)" class="btn btn-default btn-xs" id="btn-prev"><i class="fa fa-chevron-left"></i></a>
+                            <a href="javascript:void(0)" class="btn btn-default btn-xs" id="btn-next"><i class="fa fa-chevron-right"></i></a>
+                        </div>*@
+                </div>
+            </div>
+            <div id="calendar"></div>
+
+            <!-- end content -->
+        </div>
+    </div>
+</div>
+
+@section pagespecific{
+    <!-- PAGE RELATED PLUGIN(S) -->
+    <script src="~/Content/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script>
+    <script src="~/Content/js/plugin/fastclick/fastclick.min.js"></script>
+    <script src="~/Content/js/plugin/select2/select2.min.js"></script>
+
+    <script src="~/Content/js/plugin/markdown/markdown.min.js"></script>
+    <script src="~/Content/js/plugin/markdown/to-markdown.min.js"></script>
+    <script src="~/Content/js/plugin/markdown/bootstrap-markdown.min.js"></script>
+
+    <script src="~/Scripts/commercepromote/controllers/bookingclient.getreservedagent.contoller.js"></script>
+    <script src="~/Content/js/plugin/moment/moment.min.js"></script>
+    <script src="~/Content/js/plugin/fullcalendar/jquery.fullcalendar.min.js"></script>
+
+    <script src='scheduler.js'></script>
+
+    <script>
+
+        function DeleteConfirmation(Id,_id) {
+            $.SmartMessageBox({
+                title: "Delete confirmation!",
+                content: "Are you sure want to delete the booking?",
+                buttons: '[No][Yes]'
+            }, function (ButtonPressed) {
+                if (ButtonPressed === "Yes") {
+
+                    angular.element(document.getElementById('content')).scope().DeleteReservedItem(Id,_id);
+                }
+                if (ButtonPressed === "No") {
+                   
+                }
+
+            });
+        }
+
+        function DeleteSuccess() {
+
+
+            $.smallBox({
+                title: "You have successfully deleted the booking !",
+                content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
+                color: "#10ac84",
+                iconSmall: "fa fa-thumbs-up bounce animated",
+                timeout: 8000
+            });
+
+        }
+
+        function DeleteError() {
+
+
+            $.smallBox({
+                title: "Booking item delete Error!",
+                content: "<i class='fa fa-clock-o'></i> <i>please try again !</i>",
+                color: "#ee5253",
+                iconSmall: "fa fa-thumbs-up bounce animated",
+                timeout: 8000
+            });
+
+        }
+      
+
+    </script>
+}

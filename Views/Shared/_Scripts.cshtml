@@ -1,0 +1,67 @@
+﻿
+
+@Scripts.Render("~/scripts/vendor")
+<!-- CommercePromote base service -->
+<script src="~/scripts/commercepromote/base.service.js"></script>
+<!-- CommercePromote message service -->
+<script src="~/Scripts/commercepromote/services/booking.service.js"></script>
+<!-- CommercePromote booking directives service -->
+<script src="~/Scripts/commercepromote/directives/booking.directives.dateFormat.js"></script>
+<script src="~/Scripts/commercepromote/directives/booking.directives.imageupload.js"></script>
+<!-- CommercePromote handlar -->
+<script src="~/Scripts/commercepromote/bookinge.handlar.js"></script>
+
+
+<!-- DataTables : plugin -->
+@Scripts.Render("~/scripts/datatables")
+
+
+<!-- jQGrid : plugin -->
+@Scripts.Render("~/scripts/jq-grid")
+
+<!-- Forms : plugin -->
+@Scripts.Render("~/scripts/forms")
+
+<!--Calendar plugin-->
+@Scripts.Render("~/scripts/full-calendar")
+
+<!-- Flot Chart Plugin: Flot Engine, Flot Resizer, Flot Tooltip, Morris, Sparkline, EasyPie -->
+@Scripts.Render("~/scripts/charts")
+
+<!-- Vector Maps Plugin: Vectormap engine, Vectormap language -->
+@Scripts.Render("~/scripts/vector-map")
+
+
+< !-- Init Angular resources -->
+<script>
+    var handler = new BookingWebClient.BookingWebClientHandler('@ViewBag.LoggedUser.Token');
+</script>
+
+<!-- DO NOT REMOVE : GLOBAL FUNCTIONS! -->
+<script>
+    $(document).ready(function () {
+        pageSetUp();
+        drawBreadCrumb();
+    });
+</script>
+
+@if (@Model is HelperResult)
+{
+    @Model
+}
+<!-- Your GOOGLE ANALYTICS CODE Below-->
+@*<script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'xx-xxxxxxxx-x']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>*@
+

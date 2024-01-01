@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "Booking";
+}
+<div class="content" ng-controller="BookingDetailsController" ng-init="Init('@ViewBag.LoggedUser.AgentId')">
+    <div id="loader" class="preloader-area">
+        <div class="spinner-gears"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+            <h1 class="page-title txt-color-blueDark">
+                <i class="fa fa-ticket"></i>
+                Reservation List
+            </h1>
+        </div>
+
+        <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+            <a ng-href="@Url.Action("Create")" target="_self" class="btn btn-info pull-right header-btn m-b-10 m-t-10 margin-left-5"><i class="fa fa-plus-circle fa-lg"></i> Create Reservation Item</a>
+        </div>
+    </div>
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+
+        <!-- row -->
+        <!-- Widget ID (each widget will need unique ID)-->
+        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0"
+             data-widget-colorbutton="false"
+             data-widget-editbutton="false">
+            <div>
+                <div style="overflow-x:auto;  width:100%;" ng-show="ReservationItems.length>0">
+                    <table id="datatable_col_reorder" class="table table-striped table-bordered table-hover" width:"100%">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center">Name</th>
+                                <th style="text-align:center">Amount per Hour</th>
+                                <th></th>
+                                <th style="text-align:center" width="20%">Reservation Hours</th>
+                                <th style="text-align:center">Address</th>
+                                <th style="text-align:center"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="ng-cloak" ng-repeat="item in ReservationItems">
+                                <td>{{item.Name}}</td>
+                                <td style="text-align:right">{{item.Price|currency:""}}</td>
+                                <td style="text-align:center; vertical-align:middle;">
+                                    <label style="background-color:#{{item.ColorCode}}; display: block; padding: 8px;"></label>
+                                </td>
+                                <td style="overflow:hidden">
+                                    <ul ng-show="item.TimeRange!=null" style="list-style-type:none;">
+                                        <li ng-repeat="time in item.TimeRange">  @*<i class="fa fa-circle" aria-hidden="true" ng-style="{'color':(time.IsAvailable?'#009432':'#EE5A24')}"></i>*@  <b> {{time.StartTime}} </b>  To <b>{{time.EndTime}}</b></li>
+                                    </ul>
+                                </td>
+                                <td>{{item.Address}}</td>
+                                <td>  <a ng-href="@Url.Action("Edit")?Id={{item.Id}}" @*ng-show="item.QAStatus"*@><i class="fa fa-pencil"></i></a> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div ng-show="!ReservationItems.length">
+                    <blockquote>
+                        <small> <cite>- No records found -</cite></small>
+                    </blockquote>
+                </div>
+                <!-- end widget div -->
+            </div>
+            <!-- end widget -->
+        </div>
+
+        <!-- end row -->
+
+    </section>
+    <!-- end widget grid -->
+
+
+</div>
+@section pagespecific {
+
+    <script src="~/Scripts/commercepromote/controllers/bookingclient.index.controller.js"></script>
+    <script src="~/Content/js/plugin/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/js/plugin/datatables/dataTables.colVis.min.js"></script>
+    <script src="~/Content/js/plugin/datatables/dataTables.tableTools.min.js"></script>
+    <script src="~/Content/js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="~/Content/js/plugin/datatables/dataTables.colReorder.min.js"></script>
+    <script src="~/Content/js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#datatable_col_reorder').DataTable({
+                scrollY: "300px",
+                scrollX: true,
+                scrollCollapse: true,
+                paging: false,
+                fixedColumns: {
+                    leftColumns: 1,
+                    rightColumns: 1
+                }
+            });
+        });
+
+    </script>
+
+}
